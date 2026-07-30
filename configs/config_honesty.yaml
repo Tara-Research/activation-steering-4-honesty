@@ -1,0 +1,160 @@
+# Honesty steering config (logistic-regression vectors, response-average activations).
+#
+# Artifact paths are relative to PERSONA_VECTORS_FOLDER and follow the templates
+# emitted by src/vector_generation:
+#   caa/{model}/{trait}/{dataset}/{trait}_{dataset}_{side}_embeddings_response_avg_{model}.pt
+#   logistic_regression/{model}/{trait}/{dataset}/{trait}_{dataset}_logreg_{steering_vector|bias}_response_avg_{model}.pt
+# data_path is relative to DATA_FOLDER.
+
+generation_defaults:
+  temperature: 0.6
+  top_p: 0.9
+  min_tokens: 1
+  batch_size: 100
+  max_tokens: 1024
+  enable_thinking: False
+
+common_steering_config_Qwen_Qwen3.6-27B_self_report_experimental:
+  vector_path: "logistic_regression/Qwen_Qwen3.6-27B/honesty/self_report_experimental/honesty_self_report_experimental_logreg_steering_vector_response_avg_Qwen_Qwen3.6-27B.pt"
+  bias_path: "logistic_regression/Qwen_Qwen3.6-27B/honesty/self_report_experimental/honesty_self_report_experimental_logreg_bias_response_avg_Qwen_Qwen3.6-27B.pt"
+  pos_embeddings_path: "caa/Qwen_Qwen3.6-27B/honesty/self_report_experimental/honesty_self_report_experimental_honest_embeddings_response_avg_Qwen_Qwen3.6-27B.pt"
+  neg_embeddings_path: "caa/Qwen_Qwen3.6-27B/honesty/self_report_experimental/honesty_self_report_experimental_dishonest_embeddings_response_avg_Qwen_Qwen3.6-27B.pt"
+  data_path: "honesty/test/generalized/v4/generalized_honesty_test_scenarios.json"
+
+common_steering_config_google_gemma-4-31B-it_self_report_experimental:
+  vector_path: "logistic_regression/google_gemma-4-31B-it/honesty/self_report_experimental/honesty_self_report_experimental_logreg_steering_vector_response_avg_google_gemma-4-31B-it.pt"
+  bias_path: "logistic_regression/google_gemma-4-31B-it/honesty/self_report_experimental/honesty_self_report_experimental_logreg_bias_response_avg_google_gemma-4-31B-it.pt"
+  pos_embeddings_path: "caa/google_gemma-4-31B-it/honesty/self_report_experimental/honesty_self_report_experimental_honest_embeddings_response_avg_google_gemma-4-31B-it.pt"
+  neg_embeddings_path: "caa/google_gemma-4-31B-it/honesty/self_report_experimental/honesty_self_report_experimental_dishonest_embeddings_response_avg_google_gemma-4-31B-it.pt"
+  data_path: "honesty/test/generalized/v4/generalized_honesty_test_scenarios.json"
+
+common_steering_config_meta-llama_Llama-3.3-70B-Instruct_self_report_experimental:
+  vector_path: "logistic_regression/meta-llama_Llama-3.3-70B-Instruct/honesty/self_report_experimental/honesty_self_report_experimental_logreg_steering_vector_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  bias_path: "logistic_regression/meta-llama_Llama-3.3-70B-Instruct/honesty/self_report_experimental/honesty_self_report_experimental_logreg_bias_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  pos_embeddings_path: "caa/meta-llama_Llama-3.3-70B-Instruct/honesty/self_report_experimental/honesty_self_report_experimental_honest_embeddings_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  neg_embeddings_path: "caa/meta-llama_Llama-3.3-70B-Instruct/honesty/self_report_experimental/honesty_self_report_experimental_dishonest_embeddings_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  data_path: "honesty/test/generalized/v4/generalized_honesty_test_scenarios.json"
+
+
+# ===== BEST LAYERS (shared by single-turn and multi-turn) =====
+
+best_layer_meta-llama_Llama-3.3-70B-Instruct_self_report_experimental:
+  all_token_mode:
+    swfc:
+      layer: 26
+      coefficient: 4.0
+    sttp:
+      layer: 26
+      coefficient: 36.0
+    stmp:
+      layer: 26
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 26
+  response_mode:
+    swfc:
+      layer: 26
+      coefficient: 4.0
+    sttp:
+      layer: 26
+      coefficient: 36.0
+    stmp:
+      layer: 26
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 26
+
+best_layer_Qwen_Qwen3.6-27B_self_report_experimental:
+  all_token_mode:
+    swfc:
+      layer: 32
+      coefficient: 5.0
+    sttp:
+      layer: 32
+      coefficient: 36.0
+    stmp:
+      layer: 32
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 32
+  response_mode:
+    swfc:
+      layer: 32
+      coefficient: 5.0
+    sttp:
+      layer: 32
+      coefficient: 36.0
+    stmp:
+      layer: 32
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 32
+
+best_layer_google_gemma-4-31B-it_self_report_experimental:
+  all_token_mode:
+    swfc:
+      layer: 34
+      coefficient: 3.0
+    sttp:
+      layer: 34
+      coefficient: 36.0
+    stmp:
+      layer: 34
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 34
+  response_mode:
+    swfc:
+      layer: 34
+      coefficient: 3.0
+    sttp:
+      layer: 34
+      coefficient: 36.0
+    stmp:
+      layer: 34
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 34
+
+all_layers:
+  swfc:
+    coefficients: [1, 2, 3, 4, 5]
+  swfc_mult_layers:
+    coefficients: [0.2, 0.4, 0.6, 0.8, 1.0]
+  sttp:
+    coefficients: [0, 6, 12, 18, 24, 30, 36]
+  sttp_mult_layers:
+    coefficients: [0, 2, 4, 6, 8]
+  stmp:
+    coefficients: [1, 1.5, 2, 2.5, 3, 3.5, 4]
+  stmp_mult_layers:
+    coefficients: [0.2, 0.4, 0.6, 0.8, 1.0]
+
+# ===== MULTI-TURN =====
+
+multi_turn:
+  llm_generation_config:
+    assistant_max_new_tokens: 1024
+    assistant_temperature: 0.6
+    assistant_top_p: 0.9
+    user_max_new_tokens: 256
+    user_temperature: 0.6
+    user_top_p: 0.9
+    enable_thinking: False
+
+
+# ===== ANALYSIS & JUDGE =====
+
+dynamic_analysis:
+  trait: "honesty"
+  honesty_category: "self_report_experimental"
+  # No system_prompts_path: every scenario in data_path carries its own
+  # system_prompt_honest / system_prompt_dishonest pair, which is what the analysis uses.
+  # (Compare configs/config_compassion.yaml, where one global pair applies to all prompts.)
+  data_path: "honesty/test/generalized/v4/generalized_honesty_test_scenarios.json"
+  max_tokens: 2048
+  temperature: 0.6
+  top_p: 0.9
+  n_prompts: 40
+  steering_type: "all"
+  steering_direction: "positive"

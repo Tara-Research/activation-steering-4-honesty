@@ -1,0 +1,5 @@
+mt_bench:
+  question_file: "question.jsonl"
+  reference_answer_dir: "reference_answer"
+  judge_prompts_file: "judge_prompts.jsonl"
+  categories_with_reference: ["math", "coding", "reasoning"]

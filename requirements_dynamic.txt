@@ -1,0 +1,33 @@
+# Core ML/DL
+torch>=2.4.0
+transformers>=4.45.0
+accelerate>=1.0.0
+peft>=0.12.0
+
+# Generation & Inference
+# vllm excluded for Mac - install separately on Linux/CUDA
+
+# Data & Config
+PyYAML>=6.0
+pydantic>=2.0
+fire>=0.5.0
+tqdm>=4.65.0
+
+# Scientific Computing
+numpy>=1.26.0
+scipy>=1.12.0
+pandas>=2.0.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Statistical Analysis
+scikit-learn>=1.4.0
+pingouin>=0.5.4
+
+# Utilities
+psutil>=5.9.0
+requests>=2.31.0
+pillow>=10.0.0
+aiohttp>=3.9.0  # Among Us OpenRouter API path

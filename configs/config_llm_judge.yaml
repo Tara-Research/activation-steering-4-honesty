@@ -1,0 +1,36 @@
+# Single source of truth for every LLM judge in this repo.
+#
+# `llm_judge_defaults` maps 1:1 onto src/llm_judge/config.py:JudgeConfig — every
+# key is required and there are no code-side defaults, so adding or removing a
+# key here is an error the dataclass reports by name.
+#
+# `system_prompt_paths` maps a short name to a rubric file. Load one with
+# src/llm_judge/prompts.py:load_prompt("<name>"). Every rubric YAML has exactly
+# one top-level key: `system_prompt`.
+
+llm_judge_defaults:
+  model: "openai/gpt-oss-120b"
+  temperature: 1.0
+  top_p: 1.0
+  max_tokens: 8192
+  min_tokens: 1
+  reasoning_effort: "high"
+  tensor_parallel_size: 4
+  gpu_memory_utilization: 0.7
+  max_model_len: 16384
+  max_num_seqs: 16
+
+system_prompt_paths:
+  # trait expression, 0-100, parsed by parsing.parse_int_score
+  compassion: "src/llm_judge/system_prompts/sys_prompt_llm_judge_compassion.yaml"
+  compassion_multi_turn: "src/llm_judge/system_prompts/sys_prompt_llm_judge_compassion_multi_turn.yaml"
+  dismissiveness: "src/llm_judge/system_prompts/sys_prompt_llm_judge_dismissiveness.yaml"
+  honesty_multi_turn: "src/llm_judge/system_prompts/sys_prompt_llm_judge_honesty_multi_turn.yaml"
+  coherence: "src/llm_judge/system_prompts/sys_prompt_llm_judge_coherence.yaml"
+  consistency: "src/llm_judge/system_prompts/sys_prompt_llm_judge_consistency.yaml"
+  # honesty verdicts, JSON, parsed by parsing.parse_judge_json
+  caa_diverse_honesty: "src/llm_judge/system_prompts/system_prompt_llm_judge_CAA_diverse_honesty_eval.yaml"
+  honesty_universal: "src/llm_judge/system_prompts/system_prompt_llm_judge_honesty_universal.yaml"
+  # pairwise A/B for the coefficient ELO tournament, parsed by elo_evaluation.pairwise_judge
+  pairwise_elo_compassion: "src/llm_judge/system_prompts/sys_prompt_llm_judge_pairwise_elo_compassion.yaml"
+  pairwise_elo_honesty: "src/llm_judge/system_prompts/sys_prompt_llm_judge_pairwise_elo_honesty.yaml"

@@ -1,0 +1,8 @@
+# Gating threshold for StTP / StMP steerers (which tokens get steered).
+# Does NOT affect the StTP target s = mu_pos + coefficient*std_pos.
+#   mode: "bias"          -> threshold = -bias/||v||      (class midpoint; original behavior)
+#   mode: "neg_mean_std"  -> threshold = mu_neg + alpha*std_neg  (conservative, neg-cluster anchored)
+# alpha is the conservativeness knob for neg_mean_std (more negative -> fewer tokens steered).
+# Intentionally global: not keyed by model or trait.
+mode: bias
+alpha: 0.5

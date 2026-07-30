@@ -1,0 +1,4 @@
+*.pt filter=lfs diff=lfs merge=lfs -text
+results/** filter=lfs diff=lfs merge=lfs -text
+plots/** filter=lfs diff=lfs merge=lfs -text
+data filter=lfs diff=lfs merge=lfs -text

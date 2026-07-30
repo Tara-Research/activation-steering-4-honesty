@@ -1,0 +1,150 @@
+# Compassion steering config (logistic-regression vectors, response-average activations).
+#
+# Artifact paths are relative to PERSONA_VECTORS_FOLDER and follow the templates
+# emitted by src/vector_generation:
+#   caa/{model}/{trait}/{dataset}/{trait}_{dataset}_{side}_embeddings_response_avg_{model}.pt
+#   logistic_regression/{model}/{trait}/{dataset}/{trait}_{dataset}_logreg_{steering_vector|bias}_response_avg_{model}.pt
+# data_path / test_system_prompts_path are relative to DATA_FOLDER.
+
+generation_defaults:
+  temperature: 0.6
+  top_p: 0.9
+  min_tokens: 1
+  batch_size: 100
+  max_tokens: 1024
+  enable_thinking: False
+
+common_steering_config_meta-llama_Llama-3.3-70B-Instruct:
+  vector_path: "logistic_regression/meta-llama_Llama-3.3-70B-Instruct/compassion/compassion/compassion_compassion_logreg_steering_vector_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  bias_path: "logistic_regression/meta-llama_Llama-3.3-70B-Instruct/compassion/compassion/compassion_compassion_logreg_bias_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  pos_embeddings_path: "caa/meta-llama_Llama-3.3-70B-Instruct/compassion/compassion/compassion_compassion_positive_embeddings_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  neg_embeddings_path: "caa/meta-llama_Llama-3.3-70B-Instruct/compassion/compassion/compassion_compassion_negative_embeddings_response_avg_meta-llama_Llama-3.3-70B-Instruct.pt"
+  test_system_prompts_path: "compassion/test/compassion_system_prompts_test.yaml"
+  model_id_or_path: "meta-llama/Llama-3.3-70B-Instruct"
+  data_path: "compassion/test/compassion_test_user_questions.json"
+
+common_steering_config_Qwen_Qwen3.6-27B:
+  vector_path: "logistic_regression/Qwen_Qwen3.6-27B/compassion/compassion/compassion_compassion_logreg_steering_vector_response_avg_Qwen_Qwen3.6-27B.pt"
+  bias_path: "logistic_regression/Qwen_Qwen3.6-27B/compassion/compassion/compassion_compassion_logreg_bias_response_avg_Qwen_Qwen3.6-27B.pt"
+  pos_embeddings_path: "caa/Qwen_Qwen3.6-27B/compassion/compassion/compassion_compassion_positive_embeddings_response_avg_Qwen_Qwen3.6-27B.pt"
+  neg_embeddings_path: "caa/Qwen_Qwen3.6-27B/compassion/compassion/compassion_compassion_negative_embeddings_response_avg_Qwen_Qwen3.6-27B.pt"
+  test_system_prompts_path: "compassion/test/compassion_system_prompts_test.yaml"
+  model_id_or_path: "Qwen/Qwen3.6-27B"
+  data_path: "compassion/test/compassion_test_user_questions.json"
+
+common_steering_config_google_gemma-4-31B-it:
+  vector_path: "logistic_regression/google_gemma-4-31B-it/compassion/compassion/compassion_compassion_logreg_steering_vector_response_avg_google_gemma-4-31B-it.pt"
+  bias_path: "logistic_regression/google_gemma-4-31B-it/compassion/compassion/compassion_compassion_logreg_bias_response_avg_google_gemma-4-31B-it.pt"
+  pos_embeddings_path: "caa/google_gemma-4-31B-it/compassion/compassion/compassion_compassion_positive_embeddings_response_avg_google_gemma-4-31B-it.pt"
+  neg_embeddings_path: "caa/google_gemma-4-31B-it/compassion/compassion/compassion_compassion_negative_embeddings_response_avg_google_gemma-4-31B-it.pt"
+  test_system_prompts_path: "compassion/test/compassion_system_prompts_test.yaml"
+  model_id_or_path: "google/gemma-4-31B-it"
+  data_path: "compassion/test/compassion_test_user_questions.json"
+
+
+# ===== BEST LAYERS (shared by single-turn and multi-turn) =====
+
+best_layer_meta-llama_Llama-3.3-70B-Instruct:
+  all_token_mode:
+    swfc:
+      layer: 29
+      coefficient: 2.0
+    sttp:
+      layer: 29
+      coefficient: 24.0
+    stmp:
+      layer: 29
+      coefficient: 3.0
+    baseline_layer_projection_activation:
+      layer: 29
+  response_mode:
+    swfc:
+      layer: 29
+      coefficient: 2.0
+    sttp:
+      layer: 32
+      coefficient: 24.0
+    stmp:
+      layer: 32
+      coefficient: 3.0
+    baseline_layer_projection_activation:
+      layer: 32
+
+best_layer_google_gemma-4-31B-it:
+  all_token_mode:
+    sttp:
+      layer: 34
+      coefficient: 36.0
+  response_mode:
+    sttp:
+      layer: 34
+      coefficient: 36.0
+
+best_layer_Qwen_Qwen3.6-27B:
+  # TODO: re-tune — only sttp was swept; swfc/stmp/baseline placeholders mirror Qwen3.6 honesty coefficients at layer 32.
+  all_token_mode:
+    swfc:
+      layer: 32
+      coefficient: 3.0
+    sttp:
+      layer: 32
+      coefficient: 36.0
+    stmp:
+      layer: 32
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 32
+  response_mode:
+    swfc:
+      layer: 32
+      coefficient: 3.0
+    sttp:
+      layer: 32
+      coefficient: 36.0
+    stmp:
+      layer: 32
+      coefficient: 4.0
+    baseline_layer_projection_activation:
+      layer: 32
+
+all_layers:
+  swfc:
+    coefficients: [1, 2, 3, 4, 5, 6]
+  swfc_mult_layers:
+    coefficients: [0.2, 0.4, 0.6, 0.8, 1.0]
+  sttp:
+    coefficients: [0, 6, 12, 18, 24, 30, 36]
+  sttp_mult_layers:
+    coefficients: [0, 2, 4, 6, 8]
+  stmp:
+    coefficients: [1, 1.5, 2, 2.5, 3, 3.5, 4]
+  stmp_mult_layers:
+    coefficients: [0.2, 0.4, 0.6, 0.8, 1.0]
+
+# ===== MULTI-TURN =====
+
+multi_turn:
+  llm_generation_config:
+    assistant_max_new_tokens: 512
+    assistant_temperature: 0.6
+    assistant_top_p: 0.9
+    user_max_new_tokens: 256
+    user_temperature: 0.6
+    user_top_p: 0.9
+    enable_thinking: False
+
+
+# ===== ANALYSIS & JUDGE =====
+
+dynamic_analysis:
+  trait: "compassion"
+  system_prompts_path: "compassion/test/compassion_system_prompts_test.yaml"
+  aligned_sys_prompt_key: "compassionate_system_prompt"
+  malicious_sys_prompt_key: "dismissive_system_prompt"
+  data_path: "compassion/test/compassion_test_user_questions.json"
+  max_tokens: 2048
+  temperature: 0.6
+  top_p: 0.9
+  n_prompts: 50
+  steering_type: "all"
+  steering_direction: "positive"

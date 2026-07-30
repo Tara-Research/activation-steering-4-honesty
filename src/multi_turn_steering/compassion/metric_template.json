@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "run_metadata": {
+    "run_id": "2026-01-03T21:10:00Z",
+    "model": "Qwen3-8B",
+    "dataset": "therapist_multiturn_v1",
+    "steering_method": "method_A",
+    "system_prompt": "You are a very dismissive and harsh therapist...",
+    "notes": ""
+  },
+
+  "conversation_metadata": {
+    "conversation_id": "conv_000123",
+    "num_turns_user": 8,
+    "num_turns_assistant": 8,
+    "language": "en"
+  },
+
+  "turns": [
+    {
+      "turn_idx": 0,
+      "user_text": "…",
+      "assistant_text": "…",
+
+      "scores": {
+        "compassion_expression": 0.73
+      },
+
+      "basic_stats": {
+        "assistant_tokens": 164,
+        "assistant_sentences": 6
+      },
+
+      "repetition": {
+        "ngram_repeat_within": {
+          "2": 0.12,
+          "3": 0.08,
+          "4": 0.05
+        },
+        "ngram_repeat_across_prev": {
+          "2": 0.00,
+          "3": 0.00,
+          "4": 0.00
+        }
+      },
+
+      "templates": {
+        "sentence_nn_sim_mean": 0.41,
+        "sentence_template_reuse_rate": 0.00,
+        "sentence_template_threshold": 0.90
+      },
+
+      "novelty": {
+        "adjacent_novelty": null,
+        "history_novelty": 1.00,
+        "embedding_model": "all-mpnet-base-v2"
+      },
+
+      "conciseness": {
+        "concise_value": 0.0061,
+        "definition": "history_novelty / assistant_tokens * (1 - within_turn_bigram_repeat)"
+      },
+
+      "specificity": {
+        "user_keyphrases": ["social media", "comparing myself", "feel worse"],
+        "keyphrase_coverage": 0.67,
+        "generic_phrase_density": 0.17,
+        "generic_phrase_list_version": "v1"
+      },
+
+      "steering_diagnostics": {
+        "activation_projection_mean": 0.38,
+        "activation_projection_std": 0.09
+      }
+    }
+  ],
+
+  "conversation_summary": {
+    "means": {
+      "compassion_expression": 0.71,
+      "history_novelty": 0.34,
+      "keyphrase_coverage": 0.52,
+      "generic_phrase_density": 0.21,
+      "concise_value": 0.0029
+    },
+
+    "trends": {
+      "compassion_slope_over_turns": 0.012,
+      "history_novelty_slope_over_turns": -0.043,
+      "generic_phrase_density_slope_over_turns": 0.018,
+      "activation_projection_slope_over_turns": 0.025
+    },
+
+    "collapse_indices": {
+      "template_reuse_rate_mean": 0.46,
+      "ngram_repeat_across_prev_mean_3gram": 0.39,
+      "semantic_collapse_index": 0.66
+    },
+
+    "oversteering": {
+      "corr_projection_vs_history_novelty": -0.62,
+      "corr_projection_vs_specificity": -0.41,
+      "corr_projection_vs_concise_value": -0.58
+    }
+  }
+}
