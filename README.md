@@ -152,7 +152,7 @@ python -m src.vector_generation.generate_vec_logistic_regression \
   --neg-features <persona_vectors>/caa/<model_slug>/honesty/self_report_experimental/honesty_self_report_experimental_dishonest_embeddings_response_avg_<model_slug>.pt \
   --trait honesty --dataset self_report_experimental \
   --model-id meta-llama/Llama-3.3-70B-Instruct \
-  --normalization-method projection --C 0.001 --max-iter 1000
+  --normalization-method projection --C 1.0 --max-iter 1000
 ```
 
 `<model_slug>` is the model id with `/` replaced by `_`. Compassion sides are named
